@@ -7,6 +7,9 @@ import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.recipe.usecase.*;
+import recipes.security.AuthenticationFacade;
+import recipes.user.User;
+import recipes.user.usecase.GetUserByNameUseCase;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RecipeFacade {
 
+    //UseCase
     private final CreateNewRecipeUseCase createNewRecipeUseCase;
     private final GetLatestRecipeUseCase getLatestRecipeUseCase;
     private final GetRecipeByIdUseCase getRecipeByIdUseCase;
@@ -22,8 +26,14 @@ public class RecipeFacade {
     private final UpdateRecipeByIdUseCase updateRecipeByIdUseCase;
     private final GetAllRecipesByCategoryDateDscUseCase getAllRecipesByCategoryDateDscUseCase;
     private final GetAllRecipesByNameDateDscUseCase getAllRecipesByNameDateDscUseCase;
+    private final GetUserByNameUseCase getUserByNameUseCase;
+
+    //Other beans
+    private final AuthenticationFacade authenticationFacade;
 
     public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
+        User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication().getName());
+        recipeCreate.setAuthor(author);
         return createNewRecipeUseCase.execute(recipeCreate);
     }
 
@@ -46,7 +56,6 @@ public class RecipeFacade {
 
     public List<Recipe> getAllRecipesCategoryOrNameRestriction(Optional<String> category,
                                                                Optional<String> name) {
-        // FIXME: 28.06.2021 Probably you can change it with validation and annotations
         boolean isBothEmpty = category.isEmpty() && name.isEmpty();
         boolean isBothPresent = category.isPresent() && name.isPresent();
         if (isBothEmpty || isBothPresent)

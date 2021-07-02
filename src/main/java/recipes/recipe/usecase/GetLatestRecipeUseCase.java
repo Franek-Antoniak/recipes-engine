@@ -2,9 +2,9 @@ package recipes.recipe.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import recipes.annotations.UseCase;
 import recipes.recipe.Recipe;
 import recipes.recipe.RecipeService;
-import recipes.annotations.UseCase;
 
 @UseCase
 @RequiredArgsConstructor
