@@ -9,6 +9,7 @@ import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
+import recipes.user.exception.UserAuthorizationException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -78,7 +79,12 @@ public class RecipeController {
     public void wrongParams() {
     }
 
+    @ResponseStatus(value = HttpStatus.FORBIDDEN, // 401 - BAD_REQUEST
+            reason = "You don't have permission to this recipe")
+    @ExceptionHandler(UserAuthorizationException.class)
+    public void permissionToRecipeDenied() {
+    }
+
     // TODO: 28.06.2021 If you want to, you can make it in more detail
     //  - creating more exceptions and adds more handlers for them
-
 }

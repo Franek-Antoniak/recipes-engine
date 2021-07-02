@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import recipes.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class Recipe {
     @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "RecipeID")
     private Long id;
     @JsonIgnore
     private UUID uniqueId;
@@ -35,6 +37,10 @@ public class Recipe {
      * If you won't feel tired, you can read something about JPA and ORM problems there
      * https://stackoverflow.com/questions/4334970
      */
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "UserID")
+    private User author;
     @Fetch(value = FetchMode.SUBSELECT)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> ingredients;
