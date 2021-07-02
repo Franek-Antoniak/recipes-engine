@@ -3,8 +3,8 @@ package recipes.recipe.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import recipes.recipe.RecipeService;
 import recipes.annotations.UseCase;
+import recipes.recipe.RecipeService;
 
 @UseCase
 @RequiredArgsConstructor

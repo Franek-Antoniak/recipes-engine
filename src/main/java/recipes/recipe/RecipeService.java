@@ -7,6 +7,7 @@ import recipes.recipe.mapper.RecipeCreateMapper;
 import recipes.recipe.mapper.RecipeUpdateMapper;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
+import recipes.security.AuthenticationFacade;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final RecipeCreateMapper recipeCreateMapper;
     private final RecipeUpdateMapper recipeUpdateMapper;
+    private final AuthenticationFacade authenticationFacade;
 
     public Long createRecipe(RecipeCreate recipeCreate) {
         Recipe recipe = recipeCreateMapper.toRecipe(recipeCreate);
@@ -37,11 +39,13 @@ public class RecipeService {
 
     public void deleteRecipeById(long id) {
         Recipe recipe = getRecipeById(id);
+        checkAuthorizationOfRecipe(recipe);
         recipeRepository.delete(recipe);
     }
 
     public void updateRecipeById(long id, RecipeUpdate recipeUpdate) {
         Recipe recipe = getRecipeById(id);
+        checkAuthorizationOfRecipe(recipe);
         recipeUpdateMapper.updateRecipe(recipeUpdate, recipe);
         recipeRepository.save(recipe);
     }
@@ -52,5 +56,10 @@ public class RecipeService {
 
     public List<Recipe> getAllRecipesByNameDateDsc(String category) {
         return recipeRepository.findAllByNameContainingIgnoreCaseOrderByDateDesc(category);
+    }
+
+    public void checkAuthorizationOfRecipe(Recipe recipe) {
+        // Authorization - throw if user isn't author of recipe
+        authenticationFacade.throwIfUserIsNotAuthorised(recipe.getAuthor().getUsername());
     }
 }
