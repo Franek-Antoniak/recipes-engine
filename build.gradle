@@ -10,9 +10,10 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven { url "https://jitpack.io" }
 }
 
-sourceSets.main.resources.srcDirs = ["resources"]
+sourceSets.main.resources.srcDirs = ["src/main/resources"]
 
 dependencies {
 	// FREEMARKER
@@ -40,9 +41,12 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-test'
 	// HIBERNATE-VALIDATOR
 	implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.13.Final'
+	// HYPERSKILL
+	testImplementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
 }
 
 test {
-	useJUnitPlatform()
+//	useJUnitPlatform()
+	systemProperty "file.encoding", "utf-8"
 }
 
