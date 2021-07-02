@@ -3,9 +3,9 @@ package recipes.recipe.usecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import recipes.annotations.UseCase;
 import recipes.recipe.RecipeService;
 import recipes.recipe.model.RecipeUpdate;
-import recipes.annotations.UseCase;
 
 @UseCase
 @RequiredArgsConstructor

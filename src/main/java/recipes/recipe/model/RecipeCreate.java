@@ -2,10 +2,11 @@ package recipes.recipe.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import recipes.user.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Data
@@ -24,4 +25,6 @@ public class RecipeCreate {
     private List<String> ingredients;
     @NotEmpty(message = "Directions should contain at least 1 element")
     private List<String> directions;
+    @Null
+    private User author;
 }
