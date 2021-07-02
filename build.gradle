@@ -12,7 +12,7 @@ repositories {
 	mavenCentral()
 }
 
-sourceSets.main.resources.srcDirs = ["resources"]
+sourceSets.main.resources.srcDirs = ["src/main/resources"]
 
 dependencies {
 	// FREEMARKER
