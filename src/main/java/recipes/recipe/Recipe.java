@@ -31,12 +31,6 @@ public class Recipe {
     private String category;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime date;
-    /**
-     * FIXME:28.06.2021
-     * LazyCollection(LazyCollectionOption.FALSE) is an another solution
-     * If you won't feel tired, you can read something about JPA and ORM problems there
-     * https://stackoverflow.com/questions/4334970
-     */
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "UserID")

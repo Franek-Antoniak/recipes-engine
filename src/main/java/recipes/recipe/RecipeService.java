@@ -60,6 +60,7 @@ public class RecipeService {
 
     public void checkAuthorizationOfRecipe(Recipe recipe) {
         // Authorization - throw if user isn't author of recipe
-        authenticationFacade.throwIfUserIsNotAuthorised(recipe.getAuthor().getUsername());
+        authenticationFacade.throwIfUserIsNotAuthorised(recipe.getAuthor()
+                .getUsername());
     }
 }
