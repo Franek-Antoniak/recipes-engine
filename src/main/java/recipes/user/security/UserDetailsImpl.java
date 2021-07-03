@@ -6,8 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import recipes.user.User;
+import recipes.user.UserRole;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -19,8 +19,9 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(user.getRoles()
-                .split(", "))
+        return user.getRoles()
+                .stream()
+                .map(UserRole::getExtendedName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

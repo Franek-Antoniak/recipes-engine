@@ -23,7 +23,6 @@ import java.util.Optional;
 public class RecipeController {
     private final RecipeFacade recipeFacade;
 
-    // Endpoints without authentication
 
     @PostMapping("/new")
     public ResponseEntity<Recipe.ID> postRecipe(@Valid @RequestBody RecipeCreate recipeCreate) {
@@ -53,17 +52,6 @@ public class RecipeController {
         return recipeFacade.getAllRecipesCategoryOrNameRestriction(category, name);
     }
 
-    // TODO: 30.06.2021 You probably need to make some kind of authorization - only author can delete or update
-    //  recipe, if a user is not the author, the service should respond with 403(Forbidden)
-
-    // FIXME: 30.06.2021 As i understand all the endpoints you created should stay as it is. You should only
-    //  make new ones with authentications.
-
-    // Endpoints with authentication
-
-
-    // TODO: 30.06.2021
-
     // Exceptions Handlers
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND, // 404 - NOT_FOUND
@@ -72,7 +60,6 @@ public class RecipeController {
     public void recipeNotFound() {
     }
 
-    // FIXME: 29.06.2021 It's clearly confusing find a way to make it by validation
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, // 400 - BAD_REQUEST
             reason = "There is too many or not enough search arguments.")
     @ExceptionHandler(TooManyOrNotEnoughMethodArguments.class)
@@ -85,6 +72,4 @@ public class RecipeController {
     public void permissionToRecipeDenied() {
     }
 
-    // TODO: 28.06.2021 If you want to, you can make it in more detail
-    //  - creating more exceptions and adds more handlers for them
 }

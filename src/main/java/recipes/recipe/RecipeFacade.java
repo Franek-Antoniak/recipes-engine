@@ -32,7 +32,8 @@ public class RecipeFacade {
     private final AuthenticationFacade authenticationFacade;
 
     public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
-        User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication().getName());
+        User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication()
+                .getName());
         recipeCreate.setAuthor(author);
         return createNewRecipeUseCase.execute(recipeCreate);
     }
