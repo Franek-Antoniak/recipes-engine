@@ -10,8 +10,9 @@ import java.lang.annotation.*;
  * <p>In the same time indicates that an annotated class is a "component".
  * Such classes are considered as candidates for auto-detection
  * when using annotation-based configuration and classpath scanning.
- * @see Component
+ *
  * @author Franek Antoniak
+ * @see Component
  */
 
 @Target({ElementType.TYPE})

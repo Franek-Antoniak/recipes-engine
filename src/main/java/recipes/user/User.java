@@ -3,6 +3,8 @@ package recipes.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import recipes.recipe.Recipe;
 
 import javax.persistence.*;
@@ -22,10 +24,9 @@ public class User {
     @JsonIgnore
     private String password;
     private boolean enabled;
-    // FIXME: 02.07.2021 You can make that by creating new Enum with roles, and adding new table with
-    //  oneToMany relationShip to set static roles with static behaviour
-    private String roles;
-    // FIXME: 02.07.2021 check if it is user or User
+    @Fetch(value = FetchMode.SUBSELECT)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<UserRole> roles = new ArrayList<>();
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Recipe> recipes = new ArrayList<>();
 
@@ -34,8 +35,5 @@ public class User {
     private void onCreate() {
         // Enabling account
         enabled = true;
-        // If there is no role, assign a User role
-        if(roles == null)
-            roles = "ROLE_USER";
     }
 }
