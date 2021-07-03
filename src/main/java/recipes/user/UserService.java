@@ -16,6 +16,7 @@ public class UserService {
 
     public void createNewUser(UserCreate userCreate) {
         User user = userCreateMapper.toUser(userCreate);
+        user.getRoles().add(UserRole.USER);
         boolean isExists = userRepository.existsUserByUsername(user.getUsername());
         if (isExists)
             throw new UserAlreadyExistAuthenticationException("User already exists");
@@ -23,8 +24,9 @@ public class UserService {
     }
 
     public User findUserByName(String username) {
-        return userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User with given username doesn't exist")
-        );
+        return userRepository.findByUsername(username)
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User with given username doesn't exist")
+                );
     }
 }

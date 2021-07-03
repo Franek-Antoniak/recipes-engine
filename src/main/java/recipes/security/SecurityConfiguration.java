@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import recipes.user.UserRoles;
+import recipes.user.UserRole;
 import recipes.user.security.UserDetailsServiceImpl;
 
 @EnableWebSecurity
@@ -28,9 +28,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin/**")
-                .hasRole(UserRoles.ADMIN.name())
+                .hasRole(UserRole.ADMIN.name())
                 .antMatchers("/api/recipe/**")
-                .hasAnyRole(UserRoles.ADMIN.name(), UserRoles.USER.name())
+                .hasAnyRole(UserRole.ADMIN.name(), UserRole.USER.name())
                 .antMatchers("/h2", "/actuator/shutdown**", "/api/register")
                 .permitAll()
                 .and()
@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 
-    // FIXME: 02.07.2021 Remember that there is only 4 strength
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(4);

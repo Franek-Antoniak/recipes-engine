@@ -9,7 +9,6 @@ import recipes.user.usecase.RegisterNewUserUseCase;
 @Component
 @RequiredArgsConstructor
 public class UserFacade {
-    private final UserRepository userRepository;
     private final RegisterNewUserUseCase registerNewUserUseCase;
 
     public ResponseEntity<String> registerNewUser(UserCreate userCreate) {
