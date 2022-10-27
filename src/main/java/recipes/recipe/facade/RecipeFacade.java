@@ -8,9 +8,6 @@ import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.recipe.usecase.*;
-import recipes.security.authentication.facade.AuthenticationFacade;
-import recipes.user.User;
-import recipes.user.usecase.GetUserByNameUseCase;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,15 +24,10 @@ public class RecipeFacade {
 	private final UpdateRecipeByIdUseCase updateRecipeByIdUseCase;
 	private final GetAllRecipesByCategoryDateDscUseCase getAllRecipesByCategoryDateDscUseCase;
 	private final GetAllRecipesByNameDateDscUseCase getAllRecipesByNameDateDscUseCase;
-	private final GetUserByNameUseCase getUserByNameUseCase;
-
-	//Other beans
-	private final AuthenticationFacade authenticationFacade;
+	private final SetAuthorOfRecipeUseCase setAuthorOfRecipeUseCase;
 
 	public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
-		User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication()
-		                                                               .getName());
-		recipeCreate.setAuthor(author);
+		setAuthorOfRecipeUseCase.execute(recipeCreate);
 		return createNewRecipeUseCase.execute(recipeCreate);
 	}
 
