@@ -1,9 +1,9 @@
 package recipes.user.usecase;
 
 import lombok.RequiredArgsConstructor;
-import recipes.annotations.UseCase;
+import recipes.pattern.usecase.annotation.UseCase;
 import recipes.user.User;
-import recipes.user.UserService;
+import recipes.user.service.UserService;
 
 @UseCase
 @RequiredArgsConstructor

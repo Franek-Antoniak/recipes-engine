@@ -1,13 +1,15 @@
-package recipes.recipe;
+package recipes.recipe.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import recipes.recipe.Recipe;
 import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.mapper.RecipeCreateMapper;
 import recipes.recipe.mapper.RecipeUpdateMapper;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
-import recipes.security.AuthenticationFacade;
+import recipes.recipe.repository.RecipeRepository;
+import recipes.security.authentication.facade.AuthenticationFacade;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package recipes.security;
+package recipes.security.authentication.facade;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

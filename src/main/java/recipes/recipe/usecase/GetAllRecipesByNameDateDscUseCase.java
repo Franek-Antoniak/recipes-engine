@@ -1,9 +1,9 @@
 package recipes.recipe.usecase;
 
 import lombok.RequiredArgsConstructor;
-import recipes.annotations.UseCase;
+import recipes.pattern.usecase.annotation.UseCase;
 import recipes.recipe.Recipe;
-import recipes.recipe.RecipeService;
+import recipes.recipe.service.RecipeService;
 
 import java.util.List;
 import java.util.Locale;
