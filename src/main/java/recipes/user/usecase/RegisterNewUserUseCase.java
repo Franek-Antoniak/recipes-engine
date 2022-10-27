@@ -2,8 +2,8 @@ package recipes.user.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import recipes.annotations.UseCase;
-import recipes.user.UserService;
+import recipes.pattern.usecase.annotation.UseCase;
+import recipes.user.service.UserService;
 import recipes.user.model.UserCreate;
 
 @UseCase

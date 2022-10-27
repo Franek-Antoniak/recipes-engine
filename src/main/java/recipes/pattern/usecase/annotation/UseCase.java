@@ -1,4 +1,4 @@
-package recipes.annotations;
+package recipes.pattern.usecase.annotation;
 
 import org.springframework.stereotype.Component;
 

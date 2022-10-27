@@ -1,4 +1,4 @@
-package recipes.user;
+package recipes.user.facade;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

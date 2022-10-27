@@ -1,4 +1,4 @@
-package recipes.user.security;
+package recipes.user.details;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import recipes.user.User;
-import recipes.user.UserRole;
+import recipes.user.details.role.UserRole;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

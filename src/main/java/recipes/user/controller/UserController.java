@@ -1,9 +1,10 @@
-package recipes.user;
+package recipes.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import recipes.user.facade.UserFacade;
 import recipes.user.exception.UserAlreadyExistAuthenticationException;
 import recipes.user.model.UserCreate;
 
@@ -20,9 +21,7 @@ public class UserController {
 		return userFacade.registerNewUser(userCreate);
 	}
 
-	// Exceptions Handlers
-
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST, // 401 - BAD_REQUEST
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST,
 			reason = "The email, that you provided already exists in DataBase")
 	@ExceptionHandler(UserAlreadyExistAuthenticationException.class)
 	public void emailAlreadyExists() {

@@ -1,4 +1,4 @@
-package recipes.user;
+package recipes.user.details.role;
 
 import lombok.RequiredArgsConstructor;
 
