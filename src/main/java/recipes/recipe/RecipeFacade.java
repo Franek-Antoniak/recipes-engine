@@ -18,51 +18,52 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RecipeFacade {
 
-    //UseCase
-    private final CreateNewRecipeUseCase createNewRecipeUseCase;
-    private final GetLatestRecipeUseCase getLatestRecipeUseCase;
-    private final GetRecipeByIdUseCase getRecipeByIdUseCase;
-    private final DeleteRecipeByIdUseCase deleteRecipeByIdUseCase;
-    private final UpdateRecipeByIdUseCase updateRecipeByIdUseCase;
-    private final GetAllRecipesByCategoryDateDscUseCase getAllRecipesByCategoryDateDscUseCase;
-    private final GetAllRecipesByNameDateDscUseCase getAllRecipesByNameDateDscUseCase;
-    private final GetUserByNameUseCase getUserByNameUseCase;
+	//UseCase
+	private final CreateNewRecipeUseCase createNewRecipeUseCase;
+	private final GetLatestRecipeUseCase getLatestRecipeUseCase;
+	private final GetRecipeByIdUseCase getRecipeByIdUseCase;
+	private final DeleteRecipeByIdUseCase deleteRecipeByIdUseCase;
+	private final UpdateRecipeByIdUseCase updateRecipeByIdUseCase;
+	private final GetAllRecipesByCategoryDateDscUseCase getAllRecipesByCategoryDateDscUseCase;
+	private final GetAllRecipesByNameDateDscUseCase getAllRecipesByNameDateDscUseCase;
+	private final GetUserByNameUseCase getUserByNameUseCase;
 
-    //Other beans
-    private final AuthenticationFacade authenticationFacade;
+	//Other beans
+	private final AuthenticationFacade authenticationFacade;
 
-    public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
-        User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication()
-                .getName());
-        recipeCreate.setAuthor(author);
-        return createNewRecipeUseCase.execute(recipeCreate);
-    }
+	public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
+		User author = getUserByNameUseCase.execute(authenticationFacade.getAuthentication()
+		                                                               .getName());
+		recipeCreate.setAuthor(author);
+		return createNewRecipeUseCase.execute(recipeCreate);
+	}
 
-    public ResponseEntity<Recipe> getLatestRecipe() {
-        return getLatestRecipeUseCase.execute();
-    }
+	public ResponseEntity<Recipe> getLatestRecipe() {
+		return getLatestRecipeUseCase.execute();
+	}
 
 
-    public ResponseEntity<Recipe> getRecipeById(long id) {
-        return getRecipeByIdUseCase.execute(id);
-    }
+	public ResponseEntity<Recipe> getRecipeById(long id) {
+		return getRecipeByIdUseCase.execute(id);
+	}
 
-    public ResponseEntity<String> deleteRecipeById(long id) {
-        return deleteRecipeByIdUseCase.execute(id);
-    }
+	public ResponseEntity<String> deleteRecipeById(long id) {
+		return deleteRecipeByIdUseCase.execute(id);
+	}
 
-    public ResponseEntity<String> updateRecipeById(long id, RecipeUpdate recipeUpdate) {
-        return updateRecipeByIdUseCase.execute(id, recipeUpdate);
-    }
+	public ResponseEntity<String> updateRecipeById(long id, RecipeUpdate recipeUpdate) {
+		return updateRecipeByIdUseCase.execute(id, recipeUpdate);
+	}
 
-    public List<Recipe> getAllRecipesCategoryOrNameRestriction(Optional<String> category,
-                                                               Optional<String> name) {
-        boolean isBothEmpty = category.isEmpty() && name.isEmpty();
-        boolean isBothPresent = category.isPresent() && name.isPresent();
-        if (isBothEmpty || isBothPresent)
-            throw new TooManyOrNotEnoughMethodArguments();
-        if (category.isPresent())
-            return getAllRecipesByCategoryDateDscUseCase.execute(category.get());
-        return getAllRecipesByNameDateDscUseCase.execute(name.get());
-    }
+	public List<Recipe> getAllRecipesCategoryOrNameRestriction(Optional<String> category, Optional<String> name) {
+		boolean isBothEmpty = category.isEmpty() && name.isEmpty();
+		boolean isBothPresent = category.isPresent() && name.isPresent();
+		if (isBothEmpty || isBothPresent) {
+			throw new TooManyOrNotEnoughMethodArguments();
+		}
+		if (category.isPresent()) {
+			return getAllRecipesByCategoryDateDscUseCase.execute(category.get());
+		}
+		return getAllRecipesByNameDateDscUseCase.execute(name.get());
+	}
 }

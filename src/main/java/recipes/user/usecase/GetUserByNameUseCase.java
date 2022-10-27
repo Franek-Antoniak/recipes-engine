@@ -9,10 +9,10 @@ import recipes.user.UserService;
 @RequiredArgsConstructor
 public class GetUserByNameUseCase {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    public User execute(String username) {
-        return userService.findUserByName(username);
-    }
+	public User execute(String username) {
+		return userService.findUserByName(username);
+	}
 
 }

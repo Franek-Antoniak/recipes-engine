@@ -7,15 +7,16 @@ import recipes.user.exception.UserAuthorizationException;
 
 @Component
 public class AuthenticationFacadeImpl implements AuthenticationFacade {
-    @Override
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext()
-                .getAuthentication();
-    }
+	@Override
+	public Authentication getAuthentication() {
+		return SecurityContextHolder.getContext()
+		                            .getAuthentication();
+	}
 
-    @Override
-    public void throwIfUserIsNotAuthorised(String username) {
-        if (!username.equals(getAuthentication().getName()))
+	@Override
+	public void throwIfUserIsNotAuthorised(String username) {
+        if (!username.equals(getAuthentication().getName())) {
             throw new UserAuthorizationException();
-    }
+        }
+	}
 }

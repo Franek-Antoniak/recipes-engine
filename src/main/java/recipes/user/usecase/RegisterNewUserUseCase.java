@@ -10,11 +10,11 @@ import recipes.user.model.UserCreate;
 @RequiredArgsConstructor
 public class RegisterNewUserUseCase {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    public ResponseEntity<String> execute(UserCreate userCreate) {
-        userService.createNewUser(userCreate);
-        return ResponseEntity.ok()
-                .build();
-    }
+	public ResponseEntity<String> execute(UserCreate userCreate) {
+		userService.createNewUser(userCreate);
+		return ResponseEntity.ok()
+		                     .build();
+	}
 }

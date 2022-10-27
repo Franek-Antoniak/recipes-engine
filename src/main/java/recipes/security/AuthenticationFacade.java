@@ -3,7 +3,7 @@ package recipes.security;
 import org.springframework.security.core.Authentication;
 
 public interface AuthenticationFacade {
-    Authentication getAuthentication();
+	Authentication getAuthentication();
 
-    void throwIfUserIsNotAuthorised(String username);
+	void throwIfUserIsNotAuthorised(String username);
 }

@@ -10,11 +10,11 @@ import recipes.recipe.RecipeService;
 @RequiredArgsConstructor
 public class DeleteRecipeByIdUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public ResponseEntity<String> execute(long id) {
-        recipeService.deleteRecipeById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+	public ResponseEntity<String> execute(long id) {
+		recipeService.deleteRecipeById(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+		                     .build();
+	}
 }

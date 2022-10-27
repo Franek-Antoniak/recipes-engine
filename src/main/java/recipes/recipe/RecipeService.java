@@ -16,51 +16,51 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RecipeService {
 
-    private final RecipeRepository recipeRepository;
-    private final RecipeCreateMapper recipeCreateMapper;
-    private final RecipeUpdateMapper recipeUpdateMapper;
-    private final AuthenticationFacade authenticationFacade;
+	private final RecipeRepository recipeRepository;
+	private final RecipeCreateMapper recipeCreateMapper;
+	private final RecipeUpdateMapper recipeUpdateMapper;
+	private final AuthenticationFacade authenticationFacade;
 
-    public Long createRecipe(RecipeCreate recipeCreate) {
-        Recipe recipe = recipeCreateMapper.toRecipe(recipeCreate);
-        recipeRepository.save(recipe);
-        return recipe.getId();
-    }
+	public Long createRecipe(RecipeCreate recipeCreate) {
+		Recipe recipe = recipeCreateMapper.toRecipe(recipeCreate);
+		recipeRepository.save(recipe);
+		return recipe.getId();
+	}
 
-    public Recipe getLatestRecipe() {
-        Optional<Recipe> recipe = recipeRepository.findTopByOrderByIdDesc();
-        return recipe.orElseThrow(RecipeNotFoundException::new);
-    }
+	public Recipe getLatestRecipe() {
+		Optional<Recipe> recipe = recipeRepository.findTopByOrderByIdDesc();
+		return recipe.orElseThrow(RecipeNotFoundException::new);
+	}
 
-    public Recipe getRecipeById(long id) {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
-        return recipe.orElseThrow(RecipeNotFoundException::new);
-    }
+	public void deleteRecipeById(long id) {
+		Recipe recipe = getRecipeById(id);
+		checkAuthorizationOfRecipe(recipe);
+		recipeRepository.delete(recipe);
+	}
 
-    public void deleteRecipeById(long id) {
-        Recipe recipe = getRecipeById(id);
-        checkAuthorizationOfRecipe(recipe);
-        recipeRepository.delete(recipe);
-    }
+	public Recipe getRecipeById(long id) {
+		Optional<Recipe> recipe = recipeRepository.findById(id);
+		return recipe.orElseThrow(RecipeNotFoundException::new);
+	}
 
-    public void updateRecipeById(long id, RecipeUpdate recipeUpdate) {
-        Recipe recipe = getRecipeById(id);
-        checkAuthorizationOfRecipe(recipe);
-        recipeUpdateMapper.updateRecipe(recipeUpdate, recipe);
-        recipeRepository.save(recipe);
-    }
+	public void checkAuthorizationOfRecipe(Recipe recipe) {
+		// Authorization - throw if user isn't author of recipe
+		authenticationFacade.throwIfUserIsNotAuthorised(recipe.getAuthor()
+		                                                      .getUsername());
+	}
 
-    public List<Recipe> getAllRecipesByCategoryDateDsc(String category) {
-        return recipeRepository.findAllByCategoryIgnoreCaseOrderByDateDesc(category);
-    }
+	public void updateRecipeById(long id, RecipeUpdate recipeUpdate) {
+		Recipe recipe = getRecipeById(id);
+		checkAuthorizationOfRecipe(recipe);
+		recipeUpdateMapper.updateRecipe(recipeUpdate, recipe);
+		recipeRepository.save(recipe);
+	}
 
-    public List<Recipe> getAllRecipesByNameDateDsc(String category) {
-        return recipeRepository.findAllByNameContainingIgnoreCaseOrderByDateDesc(category);
-    }
+	public List<Recipe> getAllRecipesByCategoryDateDsc(String category) {
+		return recipeRepository.findAllByCategoryIgnoreCaseOrderByDateDesc(category);
+	}
 
-    public void checkAuthorizationOfRecipe(Recipe recipe) {
-        // Authorization - throw if user isn't author of recipe
-        authenticationFacade.throwIfUserIsNotAuthorised(recipe.getAuthor()
-                .getUsername());
-    }
+	public List<Recipe> getAllRecipesByNameDateDsc(String category) {
+		return recipeRepository.findAllByNameContainingIgnoreCaseOrderByDateDesc(category);
+	}
 }

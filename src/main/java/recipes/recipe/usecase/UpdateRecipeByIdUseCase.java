@@ -11,11 +11,11 @@ import recipes.recipe.model.RecipeUpdate;
 @RequiredArgsConstructor
 public class UpdateRecipeByIdUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public ResponseEntity<String> execute(long id, RecipeUpdate recipeUpdate) {
-        recipeService.updateRecipeById(id, recipeUpdate);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+	public ResponseEntity<String> execute(long id, RecipeUpdate recipeUpdate) {
+		recipeService.updateRecipeById(id, recipeUpdate);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+		                     .build();
+	}
 }

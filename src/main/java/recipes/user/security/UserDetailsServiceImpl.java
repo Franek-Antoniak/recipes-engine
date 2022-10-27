@@ -14,13 +14,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        return new UserDetailsImpl(userOptional.orElseThrow(
-                () -> new UsernameNotFoundException("User with username: " + username + "not found")
-        ));
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<User> userOptional = userRepository.findByUsername(username);
+		return new UserDetailsImpl(userOptional.orElseThrow(
+				() -> new UsernameNotFoundException("User with username: " + username + "not found")));
+	}
 }

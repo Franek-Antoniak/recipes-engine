@@ -12,9 +12,9 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class GetAllRecipesByCategoryDateDscUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public List<Recipe> execute(String category) {
-        return recipeService.getAllRecipesByCategoryDateDsc(category.toLowerCase(Locale.ROOT));
-    }
+	public List<Recipe> execute(String category) {
+		return recipeService.getAllRecipesByCategoryDateDsc(category.toLowerCase(Locale.ROOT));
+	}
 }
