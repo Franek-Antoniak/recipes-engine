@@ -18,7 +18,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@NoArgsConstructor
 public class User {
 
 	@JsonIgnore
@@ -39,7 +38,6 @@ public class User {
 
 	@PrePersist
 	private void onCreate() {
-		// Enabling account
 		enabled = true;
 	}
 
