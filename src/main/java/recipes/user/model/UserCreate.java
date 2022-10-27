@@ -10,10 +10,10 @@ import javax.validation.constraints.Pattern;
 @Data
 @NoArgsConstructor
 public class UserCreate {
-    @NotBlank(message = "Email cannot be blank")
-    @ExtendedEmailValidator
-    private String email;
-    @NotBlank(message = "Password cannot be blank")
-    @Pattern(regexp = "\\w{8,}", message = "Password should contain at least 8 characters")
-    private String password;
+	@NotBlank(message = "Email cannot be blank")
+	@ExtendedEmailValidator
+	private String email;
+	@NotBlank(message = "Password cannot be blank")
+	@Pattern(regexp = "\\w{8,}", message = "Password should contain at least 8 characters")
+	private String password;
 }

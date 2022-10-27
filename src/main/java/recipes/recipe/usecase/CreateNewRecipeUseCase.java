@@ -11,9 +11,9 @@ import recipes.recipe.model.RecipeCreate;
 @RequiredArgsConstructor
 public class CreateNewRecipeUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public ResponseEntity<Recipe.ID> execute(RecipeCreate recipeCreate) {
-        return ResponseEntity.ok(new Recipe.ID(recipeService.createRecipe(recipeCreate)));
-    }
+	public ResponseEntity<Recipe.ID> execute(RecipeCreate recipeCreate) {
+		return ResponseEntity.ok(new Recipe.ID(recipeService.createRecipe(recipeCreate)));
+	}
 }

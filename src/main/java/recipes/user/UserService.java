@@ -11,22 +11,23 @@ import recipes.user.model.UserCreate;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserCreateMapper userCreateMapper;
+	private final UserRepository userRepository;
+	private final UserCreateMapper userCreateMapper;
 
-    public void createNewUser(UserCreate userCreate) {
-        User user = userCreateMapper.toUser(userCreate);
-        user.getRoles().add(UserRole.USER);
-        boolean isExists = userRepository.existsUserByUsername(user.getUsername());
-        if (isExists)
-            throw new UserAlreadyExistAuthenticationException("User already exists");
-        userRepository.save(user);
-    }
+	public void createNewUser(UserCreate userCreate) {
+		User user = userCreateMapper.toUser(userCreate);
+		user.getRoles()
+		    .add(UserRole.USER);
+		boolean isExists = userRepository.existsUserByUsername(user.getUsername());
+		if (isExists) {
+			throw new UserAlreadyExistAuthenticationException("User already exists");
+		}
+		userRepository.save(user);
+	}
 
-    public User findUserByName(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(
-                        () -> new UsernameNotFoundException("User with given username doesn't exist")
-                );
-    }
+	public User findUserByName(String username) {
+		return userRepository.findByUsername(username)
+		                     .orElseThrow(
+				                     () -> new UsernameNotFoundException("User with given username doesn't exist"));
+	}
 }

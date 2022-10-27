@@ -10,12 +10,8 @@ import recipes.recipe.model.RecipeCreate;
 @Mapper(componentModel = "spring")
 public abstract class RecipeCreateMapper {
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "uniqueId", ignore = true),
-            @Mapping(target = "date", ignore = true),
-    })
-    public abstract Recipe toRecipe(RecipeCreate recipeCreate);
+	@Mappings({@Mapping(target = "id", ignore = true), @Mapping(target = "uniqueId", ignore = true), @Mapping(target = "date", ignore = true),})
+	public abstract Recipe toRecipe(RecipeCreate recipeCreate);
 
 }
 
