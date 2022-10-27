@@ -18,9 +18,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {})
 @Documented
 public @interface ExtendedEmailValidator {
-    String message() default "Please provide a valid email address";
+	String message() default "Please provide a valid email address";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

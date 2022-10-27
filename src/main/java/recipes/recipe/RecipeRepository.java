@@ -9,10 +9,10 @@ import java.util.Optional;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    Optional<Recipe> findTopByOrderByIdDesc();
+	Optional<Recipe> findTopByOrderByIdDesc();
 
-    List<Recipe> findAllByCategoryIgnoreCaseOrderByDateDesc(String category);
+	List<Recipe> findAllByCategoryIgnoreCaseOrderByDateDesc(String category);
 
-    List<Recipe> findAllByNameContainingIgnoreCaseOrderByDateDesc(String name);
+	List<Recipe> findAllByNameContainingIgnoreCaseOrderByDateDesc(String name);
 
 }

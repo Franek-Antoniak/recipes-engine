@@ -17,36 +17,36 @@ import recipes.user.security.UserDetailsServiceImpl;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+	private final UserDetailsServiceImpl userDetailsService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService);
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/admin/**")
-                .hasRole(UserRole.ADMIN.name())
-                .antMatchers("/api/recipe/**")
-                .hasAnyRole(UserRole.ADMIN.name(), UserRole.USER.name())
-                .antMatchers("/h2", "/actuator/shutdown**", "/api/register")
-                .permitAll()
-                .and()
-                .formLogin()
-                .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .httpBasic();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+		    .antMatchers("/admin/**")
+		    .hasRole(UserRole.ADMIN.name())
+		    .antMatchers("/api/recipe/**")
+		    .hasAnyRole(UserRole.ADMIN.name(), UserRole.USER.name())
+		    .antMatchers("/h2", "/actuator/shutdown**", "/api/register")
+		    .permitAll()
+		    .and()
+		    .formLogin()
+		    .and()
+		    .csrf()
+		    .disable()
+		    .headers()
+		    .frameOptions()
+		    .disable()
+		    .and()
+		    .httpBasic();
+	}
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(4);
-    }
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return new BCryptPasswordEncoder(4);
+	}
 }

@@ -12,25 +12,18 @@ import recipes.user.model.UserCreate;
 @Mapper(componentModel = "spring")
 public abstract class UserCreateMapper {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    public UserCreateMapper() {
-        bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
-    }
+	@Autowired
+	public UserCreateMapper() {
+		bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
+	}
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "enabled", ignore = true),
-            @Mapping(target = "recipes", ignore = true),
-            @Mapping(target = "roles", ignore = true),
-            @Mapping(target = "username", source = "email"),
-            @Mapping(target = "password", source = "password", qualifiedBy = PasswordToBcryptedPasswordMapper.class)
-    })
-    public abstract User toUser(UserCreate userCreate);
+	@Mappings({@Mapping(target = "id", ignore = true), @Mapping(target = "enabled", ignore = true), @Mapping(target = "recipes", ignore = true), @Mapping(target = "roles", ignore = true), @Mapping(target = "username", source = "email"), @Mapping(target = "password", source = "password", qualifiedBy = PasswordToBcryptedPasswordMapper.class)})
+	public abstract User toUser(UserCreate userCreate);
 
-    @PasswordToBcryptedPasswordMapper
-    public String passwordToBcryptedPassword(String password) {
-        return bCryptPasswordEncoder.encode(password);
-    }
+	@PasswordToBcryptedPasswordMapper
+	public String passwordToBcryptedPassword(String password) {
+		return bCryptPasswordEncoder.encode(password);
+	}
 }

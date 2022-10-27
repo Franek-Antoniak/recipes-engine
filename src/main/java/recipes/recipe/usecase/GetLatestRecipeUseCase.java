@@ -10,9 +10,9 @@ import recipes.recipe.RecipeService;
 @RequiredArgsConstructor
 public class GetLatestRecipeUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public ResponseEntity<Recipe> execute() {
-        return ResponseEntity.ok(recipeService.getLatestRecipe());
-    }
+	public ResponseEntity<Recipe> execute() {
+		return ResponseEntity.ok(recipeService.getLatestRecipe());
+	}
 }

@@ -5,5 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@SuppressWarnings("unused")
 public class RecipeRead {
 }

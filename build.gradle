@@ -1,7 +1,7 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.3.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
 
 group = 'recipes'
@@ -9,44 +9,44 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
-	maven { url "https://jitpack.io" }
+    mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 sourceSets.main.resources.srcDirs = ["src/main/resources"]
 
 dependencies {
-	// FREEMARKER
+    // FREEMARKER
 //    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
-	// ACTUATORS
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// SPRING BOOT with WEB SPRINGBOOT
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation "org.springframework.boot:spring-boot-starter-web"
-	// JPA AND H2
-	runtimeOnly 'com.h2database:h2'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// SPRING BOOT TEST
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// LOMBOK - ANNOTATIONS
-	testCompileOnly 'org.projectlombok:lombok:1.18.20'
-	compileOnly 'org.projectlombok:lombok:1.18.20'
-	annotationProcessor 'org.projectlombok:lombok:1.18.20'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-	// OBJECT MAPPER
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
-	// SECURITY
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-	// HIBERNATE-VALIDATOR
-	implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.13.Final'
-	// HYPERSKILL
-	testImplementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
+    // ACTUATORS
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // SPRING BOOT with WEB SPRINGBOOT
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    // JPA AND H2
+    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // SPRING BOOT TEST
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // LOMBOK - ANNOTATIONS
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    // OBJECT MAPPER
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    // SECURITY
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
+    // HIBERNATE-VALIDATOR
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.13.Final'
+    // HYPERSKILL
+    testImplementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
 }
 
 test {
 //	useJUnitPlatform()
-	systemProperty "file.encoding", "utf-8"
+    systemProperty "file.encoding", "utf-8"
 }
 

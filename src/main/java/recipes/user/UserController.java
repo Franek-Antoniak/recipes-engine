@@ -13,19 +13,19 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/api")
 public class UserController {
-    private final UserFacade userFacade;
+	private final UserFacade userFacade;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerNewUser(@Valid @RequestBody UserCreate userCreate) {
-        return userFacade.registerNewUser(userCreate);
-    }
+	@PostMapping("/register")
+	public ResponseEntity<String> registerNewUser(@Valid @RequestBody UserCreate userCreate) {
+		return userFacade.registerNewUser(userCreate);
+	}
 
-    // Exceptions Handlers
+	// Exceptions Handlers
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, // 401 - BAD_REQUEST
-            reason = "The email, that you provided already exists in DataBase")
-    @ExceptionHandler(UserAlreadyExistAuthenticationException.class)
-    public void emailAlreadyExists() {
-    }
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST, // 401 - BAD_REQUEST
+			reason = "The email, that you provided already exists in DataBase")
+	@ExceptionHandler(UserAlreadyExistAuthenticationException.class)
+	public void emailAlreadyExists() {
+	}
 
 }

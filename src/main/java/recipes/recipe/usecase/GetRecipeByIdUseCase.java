@@ -10,9 +10,9 @@ import recipes.recipe.RecipeService;
 @RequiredArgsConstructor
 public class GetRecipeByIdUseCase {
 
-    private final RecipeService recipeService;
+	private final RecipeService recipeService;
 
-    public ResponseEntity<Recipe> execute(long id) {
-        return ResponseEntity.ok(recipeService.getRecipeById(id));
-    }
+	public ResponseEntity<Recipe> execute(long id) {
+		return ResponseEntity.ok(recipeService.getRecipeById(id));
+	}
 }
