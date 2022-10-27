@@ -1,4 +1,4 @@
-package recipes.user.security;
+package recipes.user.details.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import recipes.user.User;
-import recipes.user.UserRepository;
+import recipes.user.repository.UserRepository;
+import recipes.user.details.UserDetailsImpl;
 
 import java.util.Optional;
 

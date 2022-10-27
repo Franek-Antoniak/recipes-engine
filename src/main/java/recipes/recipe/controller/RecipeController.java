@@ -1,10 +1,12 @@
-package recipes.recipe;
+package recipes.recipe.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import recipes.recipe.Recipe;
+import recipes.recipe.facade.RecipeFacade;
 import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;

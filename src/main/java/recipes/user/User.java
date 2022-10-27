@@ -1,17 +1,22 @@
 package recipes.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import recipes.recipe.Recipe;
+import recipes.user.details.role.UserRole;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @NoArgsConstructor
 public class User {
@@ -28,6 +33,7 @@ public class User {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<UserRole> roles = new ArrayList<>();
 	@OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+	@ToString.Exclude
 	private List<Recipe> recipes = new ArrayList<>();
 
 
@@ -35,5 +41,22 @@ public class User {
 	private void onCreate() {
 		// Enabling account
 		enabled = true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+			return false;
+		}
+		User user = (User) o;
+		return id != null && Objects.equals(id, user.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 }

@@ -1,13 +1,14 @@
-package recipes.recipe;
+package recipes.recipe.facade;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import recipes.recipe.Recipe;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.recipe.usecase.*;
-import recipes.security.AuthenticationFacade;
+import recipes.security.authentication.facade.AuthenticationFacade;
 import recipes.user.User;
 import recipes.user.usecase.GetUserByNameUseCase;
 
@@ -38,6 +39,7 @@ public class RecipeFacade {
 		return createNewRecipeUseCase.execute(recipeCreate);
 	}
 
+	@SuppressWarnings("unused")
 	public ResponseEntity<Recipe> getLatestRecipe() {
 		return getLatestRecipeUseCase.execute();
 	}
