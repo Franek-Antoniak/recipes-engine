@@ -1,14 +1,14 @@
 package recipes.recipe.controller;
 
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import recipes.recipe.Recipe;
+import recipes.recipe.controller.swagger.PostRecipeApiAnnotation;
 import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.facade.RecipeFacade;
@@ -29,11 +29,12 @@ import java.util.Optional;
 public class RecipeController {
 	private final RecipeFacade recipeFacade;
 
-	@ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully created", response = RecipeRead.class)})
+	@PostRecipeApiAnnotation
 	@PostMapping("/new")
 	public ResponseEntity<Recipe.ID> postRecipe(@Valid @RequestBody RecipeCreate recipeCreate) {
 		return recipeFacade.postRecipe(recipeCreate);
 	}
+
 
 	@PutMapping("/{id}")
 	public ResponseEntity<String> updateRecipeById(@PathVariable @Min(1) long id,
@@ -58,7 +59,19 @@ public class RecipeController {
 		return recipeFacade.getAllRecipesCategoryOrNameRestriction(category, name);
 	}
 
+
 	// Exceptions Handlers
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<String> userDetailsValidationFail(MethodArgumentNotValidException e) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (ObjectError error : e.getBindingResult()
+		                          .getAllErrors()) {
+			stringBuilder.append(error.getDefaultMessage())
+			             .append("\n");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+		                     .body(stringBuilder.toString());
+	}
 
 	@ResponseStatus(value = HttpStatus.NOT_FOUND, // 404 - NOT_FOUND
 			reason = "The recipe you are asking for does not exist")
