@@ -18,17 +18,17 @@ public class UserService {
 	private final UserCreateMapper userCreateMapper;
 
 	public void createNewUser(UserCreate userCreate) {
-		User user = userCreateMapper.toUser(userCreate);
-		user.getRoles()
-		    .add(UserRole.USER);
-		boolean isExists = userRepository.existsUserByUsername(user.getUsername());
+		boolean isExists = userRepository.existsUserByUsername(userCreate.getEmail());
 		if (isExists) {
 			throw new UserAlreadyExistAuthenticationException("User already exists");
 		}
+		User user = userCreateMapper.toUser(userCreate);
+		user.getRoles()
+		    .add(UserRole.USER);
 		userRepository.save(user);
 	}
 
-	public User findUserByName(String username) {
+	public User getUserByName(String username) {
 		return userRepository.findByUsername(username)
 		                     .orElseThrow(
 				                     () -> new UsernameNotFoundException("User with given username doesn't exist"));

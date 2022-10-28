@@ -25,6 +25,4 @@ public class RecipeCreate {
 	private List<String> ingredients;
 	@NotEmpty(message = "Directions should contain at least 1 element")
 	private List<String> directions;
-	@Null
-	private User author;
 }

@@ -3,13 +3,17 @@ package recipes.recipe.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import recipes.recipe.Recipe;
-import recipes.recipe.facade.RecipeFacade;
+import recipes.recipe.controller.swagger.PostRecipeApiAnnotation;
 import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
+import recipes.recipe.facade.RecipeFacade;
 import recipes.recipe.model.RecipeCreate;
+import recipes.recipe.model.RecipeRead;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.user.exception.UserAuthorizationException;
 
@@ -25,21 +29,12 @@ import java.util.Optional;
 public class RecipeController {
 	private final RecipeFacade recipeFacade;
 
-
+	@PostRecipeApiAnnotation
 	@PostMapping("/new")
 	public ResponseEntity<Recipe.ID> postRecipe(@Valid @RequestBody RecipeCreate recipeCreate) {
 		return recipeFacade.postRecipe(recipeCreate);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Recipe> getRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.getRecipeById(id);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.deleteRecipeById(id);
-	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<String> updateRecipeById(@PathVariable @Min(1) long id,
@@ -47,14 +42,36 @@ public class RecipeController {
 		return recipeFacade.updateRecipeById(id, recipeUpdate);
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteRecipeById(@PathVariable @Min(1) long id) {
+		return recipeFacade.deleteRecipeById(id);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<RecipeRead> getRecipeById(@PathVariable @Min(1) long id) {
+		return recipeFacade.getRecipeById(id);
+	}
+
 	@GetMapping("/search")
-	public List<Recipe> getAllRecipesCategoryOrNameRestriction(
+	public List<RecipeRead> getAllRecipesCategoryOrNameRestriction(
 			@RequestParam(required = false) Optional<String> category,
 			@RequestParam(required = false) Optional<String> name) {
 		return recipeFacade.getAllRecipesCategoryOrNameRestriction(category, name);
 	}
 
+
 	// Exceptions Handlers
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<String> userDetailsValidationFail(MethodArgumentNotValidException e) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (ObjectError error : e.getBindingResult()
+		                          .getAllErrors()) {
+			stringBuilder.append(error.getDefaultMessage())
+			             .append("\n");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+		                     .body(stringBuilder.toString());
+	}
 
 	@ResponseStatus(value = HttpStatus.NOT_FOUND, // 404 - NOT_FOUND
 			reason = "The recipe you are asking for does not exist")

@@ -39,6 +39,10 @@ dependencies {
     implementation 'org.springframework.security:spring-security-test'
     // HIBERNATE-VALIDATOR
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.21.Final'
+    // SWAGGER
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+//    implementation 'io.springfox:springfox-swagger2:3.0.0'
+//    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 }
 
 test {

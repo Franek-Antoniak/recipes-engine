@@ -1,26 +1,21 @@
 package recipes.user.annotations;
 
 import javax.validation.Constraint;
-import javax.validation.Payload;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Email(message = "Please provide a valid email address")
-@Pattern(regexp = ".+@.+\\..+", message = "Please provide a valid email address")
+@Email(message = "Email address doesn't match the pattern", regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
 @Target({METHOD, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
-@Documented
 public @interface ExtendedEmailValidator {
-	String message() default "Please provide a valid email address";
+	String message() default "Email address doesn't match the pattern";
 
 	Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+	Class<? extends javax.validation.Payload>[] payload() default {};
 }
