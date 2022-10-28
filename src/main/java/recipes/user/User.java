@@ -1,7 +1,9 @@
 package recipes.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -20,14 +22,12 @@ import java.util.Objects;
 @Entity
 public class User {
 
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String username;
-	@JsonIgnore
 	private String password;
-	private boolean enabled;
+	private boolean enabled = true;
 	@Fetch(value = FetchMode.SUBSELECT)
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<UserRole> roles = new ArrayList<>();
@@ -35,10 +35,9 @@ public class User {
 	@ToString.Exclude
 	private List<Recipe> recipes = new ArrayList<>();
 
-
-	@PrePersist
-	private void onCreate() {
-		enabled = true;
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
 	}
 
 	@Override
@@ -51,10 +50,5 @@ public class User {
 		}
 		User user = (User) o;
 		return id != null && Objects.equals(id, user.id);
-	}
-
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
 	}
 }
