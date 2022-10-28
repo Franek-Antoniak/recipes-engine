@@ -19,14 +19,13 @@ import java.util.Optional;
 public class RecipeService {
 
 	private final RecipeRepository recipeRepository;
-	private final RecipeCreateMapper recipeCreateMapper;
+
 	private final RecipeUpdateMapper recipeUpdateMapper;
 	private final AuthenticationFacade authenticationFacade;
 
-	public Long createRecipe(RecipeCreate recipeCreate) {
-		Recipe recipe = recipeCreateMapper.toRecipe(recipeCreate);
+	public Recipe.ID createRecipe(Recipe recipe) {
 		recipeRepository.save(recipe);
-		return recipe.getId();
+		return recipe.getRecipeID();
 	}
 
 	public Recipe getLatestRecipe() {

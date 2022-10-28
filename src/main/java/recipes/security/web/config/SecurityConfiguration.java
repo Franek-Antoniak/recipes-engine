@@ -1,4 +1,4 @@
-package recipes.security.config;
+package recipes.security.web.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		    .hasRole(UserRole.ADMIN.name())
 		    .antMatchers("/api/recipe/**")
 		    .hasAnyRole(UserRole.ADMIN.name(), UserRole.USER.name())
-		    .antMatchers("/h2", "/actuator/shutdown**", "/api/register")
+		    .antMatchers("/actuator/shutdown**", "/api/register")
+		    .permitAll()
+		    .antMatchers("/spring-security-rest/api/v2/**")
 		    .permitAll()
 		    .and()
 		    .formLogin()

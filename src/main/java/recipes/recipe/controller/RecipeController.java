@@ -1,15 +1,19 @@
 package recipes.recipe.controller;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import recipes.recipe.Recipe;
-import recipes.recipe.facade.RecipeFacade;
 import recipes.recipe.exception.RecipeNotFoundException;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
+import recipes.recipe.facade.RecipeFacade;
 import recipes.recipe.model.RecipeCreate;
+import recipes.recipe.model.RecipeRead;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.user.exception.UserAuthorizationException;
 
@@ -25,20 +29,10 @@ import java.util.Optional;
 public class RecipeController {
 	private final RecipeFacade recipeFacade;
 
-
+	@ApiResponses(value = {@ApiResponse(code = 201, message = "Successfully created", response = RecipeRead.class)})
 	@PostMapping("/new")
 	public ResponseEntity<Recipe.ID> postRecipe(@Valid @RequestBody RecipeCreate recipeCreate) {
 		return recipeFacade.postRecipe(recipeCreate);
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Recipe> getRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.getRecipeById(id);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.deleteRecipeById(id);
 	}
 
 	@PutMapping("/{id}")
@@ -47,8 +41,18 @@ public class RecipeController {
 		return recipeFacade.updateRecipeById(id, recipeUpdate);
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteRecipeById(@PathVariable @Min(1) long id) {
+		return recipeFacade.deleteRecipeById(id);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<RecipeRead> getRecipeById(@PathVariable @Min(1) long id) {
+		return recipeFacade.getRecipeById(id);
+	}
+
 	@GetMapping("/search")
-	public List<Recipe> getAllRecipesCategoryOrNameRestriction(
+	public List<RecipeRead> getAllRecipesCategoryOrNameRestriction(
 			@RequestParam(required = false) Optional<String> category,
 			@RequestParam(required = false) Optional<String> name) {
 		return recipeFacade.getAllRecipesCategoryOrNameRestriction(category, name);

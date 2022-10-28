@@ -5,11 +5,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import recipes.user.User;
 import recipes.user.annotations.PasswordToBcryptedPasswordMapper;
 import recipes.user.model.UserCreate;
 
 @Mapper(componentModel = "spring")
+@Component
 public abstract class UserCreateMapper {
 
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;

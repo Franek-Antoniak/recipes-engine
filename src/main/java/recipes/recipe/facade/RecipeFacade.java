@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import recipes.recipe.Recipe;
 import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
 import recipes.recipe.model.RecipeCreate;
+import recipes.recipe.model.RecipeRead;
 import recipes.recipe.model.RecipeUpdate;
 import recipes.recipe.usecase.*;
 
@@ -24,10 +25,8 @@ public class RecipeFacade {
 	private final UpdateRecipeByIdUseCase updateRecipeByIdUseCase;
 	private final GetAllRecipesByCategoryDateDscUseCase getAllRecipesByCategoryDateDscUseCase;
 	private final GetAllRecipesByNameDateDscUseCase getAllRecipesByNameDateDscUseCase;
-	private final SetAuthorOfRecipeUseCase setAuthorOfRecipeUseCase;
 
 	public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
-		setAuthorOfRecipeUseCase.execute(recipeCreate);
 		return createNewRecipeUseCase.execute(recipeCreate);
 	}
 
@@ -37,7 +36,7 @@ public class RecipeFacade {
 	}
 
 
-	public ResponseEntity<Recipe> getRecipeById(long id) {
+	public ResponseEntity<RecipeRead> getRecipeById(long id) {
 		return getRecipeByIdUseCase.execute(id);
 	}
 
@@ -49,7 +48,7 @@ public class RecipeFacade {
 		return updateRecipeByIdUseCase.execute(id, recipeUpdate);
 	}
 
-	public List<Recipe> getAllRecipesCategoryOrNameRestriction(Optional<String> category, Optional<String> name) {
+	public List<RecipeRead> getAllRecipesCategoryOrNameRestriction(Optional<String> category, Optional<String> name) {
 		boolean isBothEmpty = category.isEmpty() && name.isEmpty();
 		boolean isBothPresent = category.isPresent() && name.isPresent();
 		if (isBothEmpty || isBothPresent) {

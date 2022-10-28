@@ -1,10 +1,7 @@
 package recipes.recipe;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import recipes.user.User;
@@ -12,28 +9,26 @@ import recipes.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
-@NoArgsConstructor
 public class Recipe {
-
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "RecipeID")
 	private Long id;
-	@JsonIgnore
-	private UUID uniqueId;
+	private UUID uniqueId = UUID.randomUUID();
 	private String name;
 	private String description;
 	private String category;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-	private LocalDateTime date;
-	@JsonIgnore
+	private LocalDateTime date = LocalDateTime.now();
 	@ManyToOne
-	@JoinColumn(name = "UserID")
+	@JoinColumn(name = "UserId")
 	private User author;
 	@Fetch(value = FetchMode.SUBSELECT)
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -42,10 +37,20 @@ public class Recipe {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> directions;
 
-	@PrePersist
-	private void onCreate() {
-		uniqueId = UUID.randomUUID();
-		date = LocalDateTime.now();
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+			return false;
+		}
+		Recipe recipe = (Recipe) o;
+		return id != null && Objects.equals(id, recipe.id);
+	}
+
+	public ID getRecipeID() {
+		return new ID(this.id);
 	}
 
 	/**
@@ -54,7 +59,7 @@ public class Recipe {
 	@Data
 	@AllArgsConstructor
 	public static class ID {
-		private long id;
+		private Long id;
 	}
 }
 
