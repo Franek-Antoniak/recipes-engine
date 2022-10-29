@@ -31,7 +31,10 @@ public class User {
 	@Fetch(value = FetchMode.SUBSELECT)
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<UserRole> roles = new ArrayList<>();
-	@OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+	@OneToMany(
+			mappedBy = "author",
+			cascade = CascadeType.REMOVE
+	)
 	@ToString.Exclude
 	private List<Recipe> recipes = new ArrayList<>();
 

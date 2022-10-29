@@ -3,18 +3,17 @@ package recipes.recipe.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import recipes.recipe.Recipe;
-import recipes.recipe.controller.swagger.PostRecipeApiAnnotation;
+import recipes.recipe.controller.annotation.*;
 import recipes.recipe.exception.RecipeNotFoundException;
-import recipes.recipe.exception.TooManyOrNotEnoughMethodArguments;
-import recipes.recipe.facade.RecipeFacade;
 import recipes.recipe.model.RecipeCreate;
 import recipes.recipe.model.RecipeRead;
 import recipes.recipe.model.RecipeUpdate;
+import recipes.recipe.service.exception.RecipeExceptionHandlerService;
+import recipes.recipe.service.facade.RecipeFacade;
 import recipes.user.exception.UserAuthorizationException;
 
 import javax.validation.Valid;
@@ -28,6 +27,7 @@ import java.util.Optional;
 @RequestMapping(path = "/api/recipe")
 public class RecipeController {
 	private final RecipeFacade recipeFacade;
+	private final RecipeExceptionHandlerService exceptionService;
 
 	@PostRecipeApiAnnotation
 	@PostMapping("/new")
@@ -35,60 +35,75 @@ public class RecipeController {
 		return recipeFacade.postRecipe(recipeCreate);
 	}
 
-
+	@UpdateRecipeByIdApiAnnotation
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateRecipeById(@PathVariable @Min(1) long id,
-			@Valid @RequestBody RecipeUpdate recipeUpdate) {
-		return recipeFacade.updateRecipeById(id, recipeUpdate);
+	public ResponseEntity<String> updateRecipeById(
+			@PathVariable @Min(1) long id, @RequestBody RecipeUpdate recipeUpdate
+	                                              ) {
+		recipeFacade.updateRecipeById(id, recipeUpdate);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+		                     .build();
 	}
 
+	@DeleteRecipeByIdApiAnnotation
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.deleteRecipeById(id);
+		recipeFacade.deleteRecipeById(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+		                     .build();
 	}
 
+	@GetRecipeByIdApiAnnotation
 	@GetMapping("/{id}")
 	public ResponseEntity<RecipeRead> getRecipeById(@PathVariable @Min(1) long id) {
-		return recipeFacade.getRecipeById(id);
+		RecipeRead recipe = recipeFacade.getRecipeById(id);
+		return ResponseEntity.status(HttpStatus.OK)
+		                     .body(recipe);
 	}
 
+
+	@SearchRecipesWithRestrictionsApiAnnotation
 	@GetMapping("/search")
-	public List<RecipeRead> getAllRecipesCategoryOrNameRestriction(
+	public ResponseEntity<List<RecipeRead>> searchRecipesWithRestrictions(
 			@RequestParam(required = false) Optional<String> category,
-			@RequestParam(required = false) Optional<String> name) {
-		return recipeFacade.getAllRecipesCategoryOrNameRestriction(category, name);
+			@RequestParam(required = false) List<String> ingredients)
+	{
+		List<RecipeRead> recipes = recipeFacade.searchRecipes(category, ingredients);
+		return Optional.ofNullable(recipes.isEmpty() ? null : recipes)
+		               .map(ResponseEntity.status(HttpStatus.OK)::body)
+		               .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT)
+		                                              .build());
 	}
 
-
-	// Exceptions Handlers
+	@ResponseStatus(
+			value = HttpStatus.BAD_REQUEST,
+			reason = "At least one field must be filled in to search for recipes"
+	)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<String> userDetailsValidationFail(MethodArgumentNotValidException e) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (ObjectError error : e.getBindingResult()
-		                          .getAllErrors()) {
-			stringBuilder.append(error.getDefaultMessage())
-			             .append("\n");
-		}
+	public ResponseEntity<String> recipeArgumentsValidationFail(MethodArgumentNotValidException e) {
+		String message = exceptionService.getMethodArgumentsFailMessage(e);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-		                     .body(stringBuilder.toString());
+		                     .body(message);
 	}
 
-	@ResponseStatus(value = HttpStatus.NOT_FOUND, // 404 - NOT_FOUND
-			reason = "The recipe you are asking for does not exist")
+	@ResponseStatus(
+			value = HttpStatus.NOT_FOUND,
+			reason = "The recipe you are asking for does not exist"
+	)
 	@ExceptionHandler(RecipeNotFoundException.class)
-	public void recipeNotFound() {
+	public ResponseEntity<String> recipeNotFound() {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		                     .body("The recipe you are asking for does not exist");
 	}
 
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST, // 400 - BAD_REQUEST
-			reason = "There is too many or not enough search arguments.")
-	@ExceptionHandler(TooManyOrNotEnoughMethodArguments.class)
-	public void wrongParams() {
-	}
-
-	@ResponseStatus(value = HttpStatus.FORBIDDEN, // 401 - BAD_REQUEST
-			reason = "You don't have permission to this recipe")
+	@ResponseStatus(
+			value = HttpStatus.FORBIDDEN,
+			reason = "You don't have permission to this recipe"
+	)
 	@ExceptionHandler(UserAuthorizationException.class)
-	public void permissionToRecipeDenied() {
+	public ResponseEntity<String> permissionToRecipeDenied() {
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+		                     .body("You don't have permission to this recipe");
 	}
 
 }

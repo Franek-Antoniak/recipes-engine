@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import recipes.user.User;
-import recipes.user.repository.UserRepository;
 import recipes.user.details.UserDetailsImpl;
+import recipes.user.repository.UserRepository;
 
 import java.util.Optional;
 
