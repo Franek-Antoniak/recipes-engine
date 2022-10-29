@@ -29,8 +29,9 @@ public class SpringFoxConfig {
 		                           .description("Your recipes in our hands")
 		                           .version("1.0")
 		                           .contact(new Contact("Franciszek Antoniak",
-				                           "https://www.linkedin.com/in/franciszek-antoniak",
-				                           "franekant123@gmaill.com"))
+		                                                "https://www.linkedin.com/in/franciszek-antoniak",
+		                                                "franekant123@gmaill.com"
+		                           ))
 		                           .build();
 	}
 }

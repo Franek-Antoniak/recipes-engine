@@ -1,5 +1,6 @@
 package recipes.recipe;
 
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
@@ -56,10 +57,10 @@ public class Recipe {
 	/**
 	 * Static class represents ID of Recipe as Object
 	 */
-	@Data
-	@AllArgsConstructor
+	@Value
+	@ApiModel(description = "ID of Recipe")
 	public static class ID {
-		private Long id;
+		Long id;
 	}
 }
 
