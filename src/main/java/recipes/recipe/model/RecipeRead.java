@@ -8,7 +8,10 @@ import java.util.List;
 
 @Data
 public class RecipeRead {
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+	@JsonFormat(
+			shape = JsonFormat.Shape.STRING,
+			pattern = "dd-MM-yyyy hh:mm:ss"
+	)
 	private String date;
 	private String name;
 	private String description;

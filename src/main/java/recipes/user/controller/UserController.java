@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import recipes.user.controller.swagger.RegisterNewUserApiAnnotation;
+import recipes.user.controller.annotation.RegisterNewUserApiAnnotation;
 import recipes.user.exception.UserAlreadyExistAuthenticationException;
-import recipes.user.facade.UserFacade;
 import recipes.user.model.UserCreate;
+import recipes.user.service.facade.UserFacade;
 
 import javax.validation.Valid;
 
@@ -30,7 +30,8 @@ public class UserController {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<String> userDetailsValidationFail(MethodArgumentNotValidException e) {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (ObjectError error : e.getBindingResult().getAllErrors()) {
+		for (ObjectError error : e.getBindingResult()
+		                          .getAllErrors()) {
 			stringBuilder.append(error.getDefaultMessage())
 			             .append("\n");
 		}

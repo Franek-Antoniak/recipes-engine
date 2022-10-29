@@ -12,13 +12,22 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class UserCreate {
 
-	@ApiModelProperty(notes = "The user's email address", required = true)
+	@ApiModelProperty(
+			notes = "The user's email address",
+			required = true
+	)
 	@NotBlank(message = "Email cannot be blank")
 	@ExtendedEmailValidator
 	private String email;
 
-	@ApiModelProperty(notes = "The user's password", required = true)
+	@ApiModelProperty(
+			notes = "The user's password",
+			required = true
+	)
 	@NotBlank(message = "Password cannot be blank")
-	@Pattern(regexp = "\\w{8,}", message = "Password should contain at least 8 characters")
+	@Pattern(
+			regexp = "\\w{8,}",
+			message = "Password should contain at least 8 characters"
+	)
 	private String password;
 }
