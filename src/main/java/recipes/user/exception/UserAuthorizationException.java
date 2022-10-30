@@ -1,8 +1,9 @@
 package recipes.user.exception;
 
-import lombok.AllArgsConstructor;
+import org.springframework.security.core.AuthenticationException;
 
-@AllArgsConstructor
-public class UserAuthorizationException extends RuntimeException {
-
+public class UserAuthorizationException extends AuthenticationException {
+	public UserAuthorizationException(String message) {
+		super(message);
+	}
 }

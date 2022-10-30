@@ -13,7 +13,6 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-sourceSets.main.resources.srcDirs = ["src/main/resources"]
 
 dependencies {
     // ACTUATORS
@@ -21,8 +20,7 @@ dependencies {
     // SPRING BOOT with WEB SPRINGBOOT
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "org.springframework.boot:spring-boot-starter-web"
-    // JPA AND H2
-    runtimeOnly 'com.h2database:h2'
+    // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // SPRING BOOT TEST
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -38,13 +36,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
     // HIBERNATE-VALIDATOR
-    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.21.Final'
+    implementation 'org.hibernate.validator:hibernate-validator'
     // SWAGGER
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    // Hibernate Model Generator
+    annotationProcessor 'jakarta.xml.bind:jakarta.xml.bind-api'
+    compileOnly 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
+    // Postgres
+    implementation 'org.postgresql:postgresql'
 }
 
 test {
-//	useJUnitPlatform()
+    useJUnitPlatform()
     systemProperty "file.encoding", "utf-8"
 }
 

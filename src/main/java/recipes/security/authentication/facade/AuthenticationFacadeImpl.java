@@ -21,7 +21,7 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
 	@Override
 	public void throwIfUserIsNotAuthorised(String username) {
 		if (!username.equals(getAuthentication().getName())) {
-			throw new UserAuthorizationException();
+			throw new UserAuthorizationException("User is not authorized to perform this action");
 		}
 	}
 }
