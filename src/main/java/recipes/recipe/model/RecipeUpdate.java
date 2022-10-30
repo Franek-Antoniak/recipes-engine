@@ -1,5 +1,6 @@
 package recipes.recipe.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,12 +9,29 @@ import java.util.List;
 @Builder
 @Data
 public class RecipeUpdate {
-	//  28.06.2021 You can change size of Strings to
-	//  @Size(min = 1, max = 255) because of the VARCHAR(255) in H2
-
+	@ApiModelProperty(
+			notes = "Name of the recipe",
+			example = "Pancakes"
+	)
 	private String name;
+	@ApiModelProperty(
+			notes = "Description of the recipe",
+			example = "Delicious pancakes with strawberries"
+	)
 	private String description;
+	@ApiModelProperty(
+			notes = "category of the recipe",
+			example = "Breakfast"
+	)
 	private String category;
+	@ApiModelProperty(
+			notes = "List of ingredients",
+			example = "[\"flour\", \"eggs\", \"milk\", \"strawberries\", " + "\"sugar\", \"butter\"]"
+	)
 	private List<String> ingredients;
+	@ApiModelProperty(
+			notes = "List of steps",
+			example = "[\"Mix flour, eggs, milk, sugar and butter\", \"Heat the " + "pan\", \"Pour the batter\", \"Flip the pancake\", \"Serve with strawberries\"]"
+	)
 	private List<String> directions;
 }

@@ -11,9 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class RecipeCreate {
-	//  28.06.2021 You can change size of Strings to
-	//  @Size(min = 1, max = 255) because of the VARCHAR(255) in H2
-
 	@ApiModelProperty(
 			notes = "Name of the recipe",
 			example = "Pancakes",

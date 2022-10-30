@@ -1,13 +1,13 @@
 package recipes.user.controller;
 
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import recipes.user.controller.annotation.RegisterNewUserApiAnnotation;
-import recipes.user.exception.UserAlreadyExistAuthenticationException;
+import recipes.user.exception.UserAlreadyExistsException;
 import recipes.user.model.UserCreate;
 import recipes.user.service.facade.UserFacade;
 
@@ -16,30 +16,21 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/user")
+@Validated
 public class UserController {
 	private final UserFacade userFacade;
 
 	@PostMapping("/register")
 	@RegisterNewUserApiAnnotation
-	public ResponseEntity<String> registerNewUser(@Valid @RequestBody UserCreate userCreate) {
+	public ResponseEntity<Void> registerNewUser(
+			@ApiParam("Registration details") @RequestBody @Valid UserCreate userCreate
+	                                           ) {
 		userFacade.registerNewUser(userCreate);
 		return ResponseEntity.status(HttpStatus.CREATED)
-		                     .body("User registered successfully");
+		                     .build();
 	}
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<String> userDetailsValidationFail(MethodArgumentNotValidException e) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for (ObjectError error : e.getBindingResult()
-		                          .getAllErrors()) {
-			stringBuilder.append(error.getDefaultMessage())
-			             .append("\n");
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-		                     .body(stringBuilder.toString());
-	}
-
-	@ExceptionHandler(UserAlreadyExistAuthenticationException.class)
+	@ExceptionHandler(UserAlreadyExistsException.class)
 	public ResponseEntity<String> emailAlreadyExists(Exception e) {
 		return ResponseEntity.status(HttpStatus.CONFLICT)
 		                     .body(e.getMessage());

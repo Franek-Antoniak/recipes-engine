@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import recipes.user.User;
 import recipes.user.details.role.UserRole;
-import recipes.user.exception.UserAlreadyExistAuthenticationException;
+import recipes.user.exception.UserAlreadyExistsException;
 import recipes.user.model.UserCreate;
 import recipes.user.model.mapper.UserCreateMapper;
 import recipes.user.repository.UserRepository;
@@ -20,7 +20,7 @@ public class UserService {
 	public void createNewUser(UserCreate userCreate) {
 		boolean isExists = userRepository.existsUserByUsername(userCreate.getEmail());
 		if (isExists) {
-			throw new UserAlreadyExistAuthenticationException("User already exists");
+			throw new UserAlreadyExistsException("User already exists");
 		}
 		User user = userCreateMapper.toUser(userCreate);
 		user.getRoles()
