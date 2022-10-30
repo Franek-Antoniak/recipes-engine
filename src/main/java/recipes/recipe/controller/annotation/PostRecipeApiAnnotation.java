@@ -1,5 +1,6 @@
 package recipes.recipe.controller.annotation;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +17,7 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+@ApiOperation(value = "Create a new recipe")
 @ResponseStatus(HttpStatus.CREATED)
 @ApiResponses(
 		value = {@ApiResponse(
@@ -24,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 				content = @Content(schema = @Schema(implementation = Recipe.ID.class))
 		), @ApiResponse(
 				responseCode = "400",
-				description = "Recipe details are not valid",
+				description = "Validation error",
 				content = @Content(
 						schema = @Schema(implementation = String.class),
 						mediaType = "*/*",

@@ -1,5 +1,6 @@
 package recipes.user.controller.annotation;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+@ApiOperation(value = "Register new user")
 @ResponseStatus(HttpStatus.CREATED)
 @ApiResponses(
 		value = {@ApiResponse(

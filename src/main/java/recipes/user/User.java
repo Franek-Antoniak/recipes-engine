@@ -20,10 +20,16 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Table(name = "Users")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(
+			name = "UserID",
+			insertable = false,
+			updatable = false
+	)
 	private Long id;
 	private String username;
 	private String password;

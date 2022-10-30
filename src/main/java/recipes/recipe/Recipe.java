@@ -18,10 +18,15 @@ import java.util.UUID;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Table(name = "recipes")
 public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "RecipeID")
+	@Column(
+			name = "RecipeID",
+			insertable = false,
+			updatable = false
+	)
 	private Long id;
 	private UUID uniqueId = UUID.randomUUID();
 	private String name;
@@ -29,7 +34,7 @@ public class Recipe {
 	private String category;
 	private LocalDateTime date = LocalDateTime.now();
 	@ManyToOne
-	@JoinColumn(name = "UserId")
+	@JoinColumn(name = "id")
 	private User author;
 	@Fetch(value = FetchMode.SUBSELECT)
 	@ElementCollection(fetch = FetchType.EAGER)

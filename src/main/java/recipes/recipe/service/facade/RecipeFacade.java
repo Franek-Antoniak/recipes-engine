@@ -27,6 +27,7 @@ public class RecipeFacade {
 	private final GetAllRecipesByCategoryAndIngredientsUseCase getAllByCategoryAndIngredients;
 	private final GetAllRecipesByCategoryDateDscUseCase getAllByCategory;
 	private final GetAllRecipesByIngredientsDateDscUseCase getALlByIngredients;
+	private final GetAllRecipesWithRightAuthorisationUseCase getAllRecipesWithRightAuthorisationUseCase;
 
 	public ResponseEntity<Recipe.ID> postRecipe(RecipeCreate recipeCreate) {
 		return createNewRecipeUseCase.execute(recipeCreate);
@@ -52,11 +53,12 @@ public class RecipeFacade {
 	}
 
 	public List<RecipeRead> searchRecipes(Optional<String> category, List<String> ingredients) {
-		List<Recipe> result = Optional.ofNullable(ingredients.isEmpty() ? null : ingredients)
+		List<Recipe> result = Optional.ofNullable(ingredients == null || ingredients.isEmpty() ? null : ingredients)
 		                              .map(i -> category.map(c -> getAllByCategoryAndIngredients.execute(c, i))
 		                                                .orElseGet(() -> getALlByIngredients.execute(i)))
 		                              .orElseGet(() -> category.map(getAllByCategory::execute)
 		                                                       .orElse(List.of()));
+		result = getAllRecipesWithRightAuthorisationUseCase.execute(result);
 		return result.stream()
 		             .map(recipeReadMapper::toRecipeRead)
 		             .collect(Collectors.toList());
