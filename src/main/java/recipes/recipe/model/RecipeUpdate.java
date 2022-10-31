@@ -1,13 +1,13 @@
 package recipes.recipe.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Builder
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class RecipeUpdate {
 	@ApiModelProperty(
 			notes = "Name of the recipe",

@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  app:
+    image: 'recipes-engine:latest'
+    build:
+      context: .
+    container_name: recipes-engine
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/sample_user
+      - SPRING_DATASOURCE_USERNAME=sample_user
+      - SPRING_DATASOURCE_PASSWORD=strong_password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
+  db:
+    image: 'postgres:15-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=sample_user
+      - POSTGRES_PASSWORD=strong_password
