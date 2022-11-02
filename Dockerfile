@@ -2,7 +2,7 @@
 FROM gradle:7.0.2-jdk11 AS TEMP_BUILD_IMAGE
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build.gradle settings.gradle $APP_HOME
+COPY build.gradle settings.gradle $APP_HOME/
 
 COPY gradle $APP_HOME/gradle
 COPY --chown=gradle:gradle . /home/gradle/src
@@ -12,6 +12,8 @@ RUN chown -R gradle /home/gradle/src
 RUN gradle build || return 0
 COPY . .
 RUN gradle clean build
+
+USER guest
 
 # actual container
 FROM adoptopenjdk/openjdk11:alpine-jre
