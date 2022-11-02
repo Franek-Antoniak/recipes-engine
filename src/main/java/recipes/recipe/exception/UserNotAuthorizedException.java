@@ -1,7 +1,6 @@
 package recipes.recipe.exception;
 
-public class UserNotAuthorizedException extends RuntimeException {
-	public UserNotAuthorizedException() {
-		super();
-	}
+import recipes.user.exception.AuthorizationException;
+
+public class UserNotAuthorizedException extends AuthorizationException {
 }

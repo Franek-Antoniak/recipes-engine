@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/h2database/recipes_db.mv.db
+
+### Custom ###
+docker/recipes-engine-0.0.1-SNAPSHOT.jar

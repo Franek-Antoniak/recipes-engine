@@ -80,6 +80,7 @@ public class RecipeController {
 			reason = "Recipe not found"
 	)
 	@ExceptionHandler(RecipeNotFoundException.class)
+	@SuppressWarnings("PMD.UncommentedEmptyMethodBody")
 	public void handleRecipeNotFoundException() {
 	}
 }
